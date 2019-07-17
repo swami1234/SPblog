@@ -1,0 +1,150 @@
+﻿@model SPblog.Models.BlogPost
+@using SPblog.Models
+<!-- header -->
+<div id="top" data-toggle="top"></div>
+<a href="#menu-toggle" id="menu-toggle"><i class="lnr lnr-menu"></i></a>
+<header id="home" style="background-image:url(/images/images/aaa.jpg)"></header>
+<!-- / header -->
+
+<div class="header-content">
+    <h2>Hello<span class="text-primary">.</span> This is a <span class="text-primary">Blog Post</span></h2>
+    <h4>Posted By<span class="text-primary">.</span> Sarvesh <span class="text-primary">Patel</span></h4>
+    @{ 
+        var date = DateTime.Now;
+        var message = "This is Blog Post on My Journey at Coder Foundry.";
+
+        <p>@date</p>
+        <p>@message</p>
+    }
+    @*<p>This is Blog Post on My Journey at Coder Foundry.</p>
+    <p>Blog Post describes Weekly Progress</p>*@
+</div>
+<section id="blog">
+
+
+
+    <div class="container">
+        <div class="blog block post-content-area padd15">
+            <h3 class="text-center">
+                <a href=' @Url.Action("Details", "BlogPosts", new { slug = Model.Slug })'>
+                    @Html.DisplayFor(modelItem => Model.Title)
+                </a>
+            </h3>
+
+
+            @if (Model.MediaURL != null)
+            {
+                @*<div class=" blog-img-wide">
+                        <a href='@Url.Action("Details", "BlogPosts", new { slug = Model.Slug })'>
+                            <img class=" img-responsive" src="@Model.MediaURL" />
+                            </a>
+                    </div>*@
+                <img class=" img-responsive" src="@Model.MediaURL" />
+            }
+
+
+
+            <p>
+                @Html.Raw(Model.Body)
+            </p>
+            <a href=' @Url.Action("Details", "BlogPosts", new { slug = Model.Slug })'>Read More</a>
+        </div>
+    </div>
+
+
+
+    <div class=" row text-center h1">COMMENT BOX</div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        using (@Html.BeginForm("Create", "Comments", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("BlogPostId", Model.Id);
+
+            <div class=" row">
+                <div class=" col-md-12">
+                    @Html.TextArea("CommentBody", new { @class = "form-control" })
+                    <button class="btn btn-default" type="submit" value="Post">Post Comment</button>
+                </div>
+            </div>
+
+        }
+    }
+
+    <ul>
+        @foreach (var comment in Model.Comments)
+        {
+            <li>@comment.Body</li>
+        }
+    </ul>
+
+
+
+
+
+
+
+    <div class="space-50">&nbsp;</div>
+
+    <div class="share">
+        <a href="#" class="btn-social btn-facebook-filled">
+            <i class="fa fa-facebook"></i>
+            <span>Share</span>
+        </a>
+        <a href="#" class="btn-social btn-twitter-filled"><i class="fa fa-twitter"></i> <span>Tweet</span></a>
+        <a href="#" class="btn-social btn-google-filled"><i class="fa fa-google"></i> <span>Share on Google+</span></a>
+        <a href="#" class="btn-social btn-pinterest-filled"><i class="fa fa-pinterest"></i> <span>Pin it</span></a>
+    </div>
+
+
+
+
+</section>
+<!-- / blog content -->
+<!-- journal -->
+<section id="journal">
+    <div class="container">
+        <div class="page-header space-left">
+            <h3>Related Posts<span class="text-primary">.</span></h3>
+        </div>
+        <div id="posts-carousel" class="owl-carousel">
+            <div class="blog block carousel-post">
+                <img src="~/images/images/post.jpg" alt="">
+                <h5>Post Title</h5>
+                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
+                <a href="#">Read More...</a>
+            </div><!-- / carousel-post -->
+            <div class="blog block carousel-post">
+                <img src="~/images/images/post.jpg" alt="">
+                <h5>Post Title</h5>
+                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
+                <a href="#">Read More...</a>
+            </div><!-- / carousel-post -->
+            <div class="blog block carousel-post">
+                <img src="~/images/images/post.jpg" alt="">
+                <h5>Post Title</h5>
+                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
+                <a href="#">Read More...</a>
+            </div><!-- / carousel-post -->
+            <div class="blog block carousel-post">
+                <img src="~/images/images/post.jpg" alt="">
+                <h5>Post Title</h5>
+                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
+                <a href="#">Read More...</a>
+            </div><!-- / carousel-post -->
+            <div class="blog block carousel-post">
+                <img src="~/images/images/post.jpg" alt="">
+                <h5>Post Title</h5>
+                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
+                <a href="#">Read More...</a>
+            </div><!-- / carousel-post -->
+            <div class="blog block carousel-post">
+                <img src="~/images/images/post.jpg" alt="">
+                <h5>Post Title</h5>
+                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
+                <a href="#">Read More...</a>
+            </div><!-- / carousel-post -->
+        </div><!-- / posts-carousel -->
+    </div><!-- / container -->
+</section>
+<!-- / journal -->
