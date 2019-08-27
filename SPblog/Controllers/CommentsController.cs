@@ -14,6 +14,7 @@ using SPblog.Models;
 namespace SPblog.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [RequireHttps]
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -49,11 +50,9 @@ namespace SPblog.Controllers
 
         // GET: Comments/Create
         [HttpGet]
-        
+        [AllowAnonymous]
         public ActionResult Create()
         {
-           
-
             ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.BlogPostId = new SelectList(db.Posts, "Id", "Title");
             return View();
@@ -64,8 +63,8 @@ namespace SPblog.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
-        public ActionResult Create([Bind(Include = "BlogPostId")] Comment comment, string commentBody)
+        [AllowAnonymous]
+        public ActionResult Create([Bind(Include = "BlogPostId, CommentBody")] Comment comment, string commentBody)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +81,7 @@ namespace SPblog.Controllers
         }
 
         // GET: Comments/Edit/5
-       
+        [AllowAnonymous]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,6 +95,9 @@ namespace SPblog.Controllers
             }
             ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", comment.AuthorId);
             ViewBag.BlogPostId = new SelectList(db.Posts, "Id", "Title", comment.BlogPostId);
+
+            //var postId = db.Comments.Find(id).BlogPostId;
+            //ViewBag.Slug = db.Posts.Find(postId).Slug;
             return View(comment);
         }
 
@@ -104,13 +106,22 @@ namespace SPblog.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,BlogPostId,AuthorId,Body,Created,Updated,UpdateReason")] Comment comment)
+        [AllowAnonymous]
+        public ActionResult Edit([Bind(Include = "Id,BlogPostId,AuthorId,Created,UpdateReason, Body")] Comment comment)
         {
             if (ModelState.IsValid)
             {
+                if ((User.IsInRole("Admin") || User.IsInRole("Moderator")) && comment.UpdateReason == null)
+                {
+                    ModelState.AddModelError("UpdateReason", "An Update reason is required!");
+                    return View(comment);
+                }
+                comment.Updated = DateTimeOffset.Now;
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var slug = db.Posts.Find(comment.BlogPostId).Slug;
+                return RedirectToAction("Details", "BlogPosts", new { slug = slug });
             }
             ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", comment.AuthorId);
             ViewBag.BlogPostId = new SelectList(db.Posts, "Id", "Title", comment.BlogPostId);

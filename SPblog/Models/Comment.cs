@@ -15,6 +15,8 @@ namespace SPblog.Models
         public string AuthorId { get; set; }//*
         [AllowHtml]
         public string Body { get; set; }
+       
+     
 
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Updated { get; set; }

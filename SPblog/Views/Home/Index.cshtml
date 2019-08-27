@@ -1,60 +1,164 @@
-﻿@{
+﻿@using PagedList;
+@using PagedList.Mvc;
+@using SPblog.Models;
+@using Microsoft.AspNet.Identity
+@model IEnumerable<BlogPost>
+@{
+
     ViewBag.Title = "Home Page";
 }
+<style>
+    #myways {
+        height: 250px;
+        width: 100%;
+        border: 2px solid black;
+    }
+</style>
+<!-- header -->
+<div id="top" data-toggle="top"></div>
+<a href="#menu-toggle" id="menu-toggle"><i class="lnr lnr-menu"></i></a>
+<header id="home" style="background-image:url(/images/images/aaa.jpg)"></header>
 
-@*<img class=" img-fluid" src=" https://i.imgur.com/jZ3N88r.jpg" alt="Sample image" />*@
+<!-- / header -->
+<div class="header-content">
+    <h2>Hello<span class="text-primary">.</span> This is a <span class="text-primary">Blog Post</span></h2>
+    <h4>Managed by<span class="text-primary">.</span> Sarvesh <span class="text-primary">Patel</span></h4>
+    @{
+        var date = DateTime.Now;
+        var message = "This is Blog Post on My Journey at Coder Foundry.";
 
-<div class="jumbotron">
-    <h1>My Training at Coder-Foundry's BlogPost</h1>
-    <p class="lead">Please register is your first time user.</p>
-    <p><a href="http://localhost:50969//Account/Register" class="btn btn-primary btn-lg">Register &raquo;</a></p>
+        <p>@date</p>
+        <p>@message</p>
+    }
+    <p>Blog Post describes Weekly Progress</p>
+</div>
+<br />
+<br />
+<br />
+<div class="row">
+    <div class=" col-md-8">
+        
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class=" row">
+                  
+                        <p><h2>Welcome,</h2></p>  <span class="text-primary h3">@User.Identity.Name</span>
+
+                   
+                    
+                </div>
+            }
+        
+    </div>
+    @*<div class=" col-md-4">
+        @using (Html.BeginForm("Index", "BlogPosts", FormMethod.Get, htmlAttributes: new { @class = "form" }))
+        {
+            <div class="controls controls-row search-row">
+                <input id="searchStr" name="searchStr" class="input-block-level" type="text"
+                       placeholder="Search for a blog">
+                <button id="searchStr" name="searchStr" class="btn btn-success" type="submit">
+                    <i class="icon-search"></i> Search
+                </button>
+            </div>
+        }
+    </div>*@
 </div>
 
-</section>
-<!-- / blog content -->
+
 <!-- journal -->
 <section id="journal">
     <div class="container">
-        <div class="page-header space-left">
-            <h3>Related Posts<span class="text-primary">.</span></h3>
+
+
+        <div class="row page-header space-left">
+            
+                <h1>Blog Posts<span class="text-primary">.</span></h1>
+        </div>
+           
+
         </div>
         <div id="posts-carousel" class="owl-carousel">
-            <div class="blog block carousel-post">
-                <img src="~/images/images/post.jpg" alt="">
-                <h5>Post Title</h5>
-                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
-                <a href="#">Read More...</a>
-            </div><!-- / carousel-post -->
-            <div class="blog block carousel-post">
-                <img src="~/images/images/post.jpg" alt="">
-                <h5>Post Title</h5>
-                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
-                <a href="#">Read More...</a>
-            </div><!-- / carousel-post -->
-            <div class="blog block carousel-post">
-                <img src="~/images/images/post.jpg" alt="">
-                <h5>Post Title</h5>
-                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
-                <a href="#">Read More...</a>
-            </div><!-- / carousel-post -->
-            <div class="blog block carousel-post">
-                <img src="~/images/images/post.jpg" alt="">
-                <h5>Post Title</h5>
-                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
-                <a href="#">Read More...</a>
-            </div><!-- / carousel-post -->
-            <div class="blog block carousel-post">
-                <img src="~/images/images/post.jpg" alt="">
-                <h5>Post Title</h5>
-                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
-                <a href="#">Read More...</a>
-            </div><!-- / carousel-post -->
-            <div class="blog block carousel-post">
-                <img src="~/images/images/post.jpg" alt="">
-                <h5>Post Title</h5>
-                <p>Quisque eu eleifend sapien. Sed et eros non nibh eleifend nuiqe rhoncus mauris tempus [...]</p>
-                <a href="#">Read More...</a>
-            </div><!-- / carousel-post -->
-        </div><!-- / posts-carousel -->
-    </div><!-- / container -->
+            @foreach (var post in Model)
+            {
+                @*<div id="posts-carousel" class="owl-carousel">
+                        <div class="blog block carousel-post">
+                            @if (post.MediaURL != null)
+                            {
+
+                                <img class=" img-responsive" src="@post.MediaURL" alt="Sample image" />
+
+                            }
+
+                            <h5>
+                                <a href='@Url.Action("Details", "BlogPosts", new { slug = post.Slug })'>
+                                    @Html.DisplayFor(postItem => post.Title)
+                                </a>
+                            </h5>
+                            <p> @Html.Raw(post.Body) [...]</p>
+
+                            @Html.ActionLink("Read More","Details","BlogPost", new { slug = post.Slug},null)
+
+                        </div>
+                    </div>*@
+
+                <div class="blog block carousel-post">
+                    @if (post.MediaURL != null)
+                    {
+                        <img class="img-fluid" id="myways" src="@post.MediaURL" alt="Sample image">
+                    }
+
+                    <h5>@post.Title</h5>
+                    <p>My week 2 progress at coder Foundry [...]</p>
+                    <a href="@Url.Action("Details","BlogPosts",new { slug = post.Slug})">Read More...</a>
+                </div>
+            }
+
+        </div>
+    </div>
 </section>
+@*<div id="posts-carousel" class="owl-carousel">
+        <div class="blog block carousel-post">
+            <img class=" img-fluid" src=" https://i.imgur.com/jZ3N88r.jpg" alt="Sample image" />
+            <h5>Week 3 Training</h5>
+            <p> My week 3 progress at coder Foundry [...]</p>
+            <a href="https://localhost:44365/Blog/week-3-progress">Read More...</a>
+
+        </div><!-- / carousel-post -->
+        <div class="blog block carousel-post">
+            <img class="img-fluid" src="https://i.imgur.com/CkOlAbR.jpg" alt="Sample image">
+            <h5>Week 2 Training</h5>
+            <p>My week 2 progress at coder Foundry [...]</p>
+            <a href="https://localhost:44365/Blog/week-2-progress">Read More...</a>
+        </div><!-- / carousel-post -->
+        <div class="blog block carousel-post">
+            <img class="img-fluid" src="https://cdn.pixabay.com/photo/2015/09/05/20/02/coding-924920__340.jpg" alt="Sample image">
+            <h5>Week 1 Training</h5>
+            <p>My week 1 progress at coder Foundry [...]</p>
+            <a href="https://localhost:44365/Blog/week-1-progress">Read More...</a>
+        </div><!-- / carousel-post -->
+        <div class="blog block carousel-post">
+            <img class="img-fluid" src="https://jaxenter.com/wp-content/uploads/2014/08/music2.png" alt="Sample image">
+            <h5>Portfolio Project</h5>
+            <p>My 1st project at coder Foundry [...]</p>
+            <a href="https://localhost:44365/Blog/portfolio-project">Read More...</a>
+        </div><!-- / carousel-post -->
+
+        <div class="blog block carousel-post">
+            <img class="img-fluid" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRgBZegQqAw0a2hRBJe35JnW-1dLQQzOMnHNSLG7ZlkWQLvOtehA" alt="Sample image">
+            <h5>ASP.NET MVC</h5>
+            <p>Important topics in ASP.NET MVC [...]</p>
+            <a href="https://localhost:44365/Blog/asp-net-mvc">Read More...</a>
+        </div><!-- / carousel-post -->
+        <div class="blog block carousel-post">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIkGCZR247KrkT2A6o2cm3h4Qq7isTki3YR80zomcHN8kh4-B6" alt="">
+            <h5>C#</h5>
+            <p>Important topics in C# [...]</p>
+            <a href="https://localhost:44365/Blog/c-sharp">Read More...</a>
+        </div><!-- / carousel-post -->
+    </div*@
+
+
+@*</section>*@
+
+
+

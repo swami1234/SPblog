@@ -1,0 +1,13 @@
+﻿/*.checkbox input[type="checkbox"] {
+    opacity: unset;
+}*/
+.checkbox label{
+    width: 100%;
+}
+
+#specialcheckbox{
+    opacity: unset;
+}
+#divchkbox {
+    padding-left: 35px;
+}

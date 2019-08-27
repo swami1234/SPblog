@@ -11,6 +11,7 @@ using SPblog.Models;
 namespace SPblog.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

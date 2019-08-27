@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using Owin.Security.Providers.LinkedIn;
 using SPblog.Models;
 
 namespace SPblog
@@ -55,14 +56,22 @@ namespace SPblog
             //   consumerSecret: "");
 
             //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            //   appId: "",
+            //   appSecret: ""
+            //   );
+            //}
+            app.UseLinkedInAuthentication(new LinkedInAuthenticationOptions()
+            {
+                ClientId = "789740atggzmio",
+                ClientSecret = "0uMOlqtslnRGkmQl"
+            });
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "768303873656-72dn811th5m9smeuv4ek07p3010g4ebt.apps.googleusercontent.com",
+                ClientSecret = "-MDzOW2WA7VPffDX0YypV-41"
+            });
         }
     }
 }

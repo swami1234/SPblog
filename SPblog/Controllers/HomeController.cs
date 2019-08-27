@@ -8,15 +8,56 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
+using System.Net;
+using System.Data;
+using System.Data.Entity;
+using System.IO;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SPblog.Helpers;
+
 
 namespace SPblog.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
-        public ActionResult Index()
+
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult Index() // adding nullable int to page (paging)
         {
-            return View();
+           
+
+            var myPosts = db.Posts.Where(b => b.Published).OrderByDescending(b => b.Created).ToList();
+            return View(myPosts);
         }
+
+        //[HttpPost]
+        //public IQueryable<BlogPost> IndexSearch(string searchStr)
+        //{
+        //    IQueryable<BlogPost> result = null;
+        //    if (searchStr != null)
+        //    {
+        //        result = db.Posts.AsQueryable();
+        //        result = result.Where(p => p.Title.Contains(searchStr) ||
+        //                              p.Body.Contains(searchStr) ||
+        //                              p.Comments.Any(c => c.Body.Contains(searchStr) ||
+        //                              c.Author.FirstName.Contains(searchStr) ||
+        //                              c.Author.LastName.Contains(searchStr) ||
+        //                              c.Author.DisplayName.Contains(searchStr) ||
+        //                              c.Author.Email.Contains(searchStr)));
+        //    }
+        //    else
+        //    {
+        //        result = db.Posts.AsQueryable();
+        //    }
+
+        //    return result.OrderByDescending(p => p.Created);
+        //}
+
 
         public ActionResult About()
         {
@@ -51,7 +92,13 @@ namespace SPblog.Controllers
             await svc.SendAsync(emailMessage);
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ThankYou");
+        }
+
+        public ActionResult ThankYou()
+        {
+            
+            return View();
         }
 
     }

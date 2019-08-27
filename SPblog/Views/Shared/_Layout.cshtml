@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -21,6 +22,7 @@
     <link href="~/Content/animate.css" rel="stylesheet" />
     <link href="~/Content/owl.carousel.css" rel="stylesheet" />
     <link href="~/Content/owl.theme.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
 
 
     <!-- fonts -->
@@ -29,9 +31,9 @@
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 
     <link href="~/fonts/fonts/FontAwesome.otf" />
-  
-    <link href="~/Content/linear-icons.css" rel="stylesheet" />
 
+    <link href="~/Content/linear-icons.css" rel="stylesheet" />
+    <link href="~/Content/Custom.css" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,56 +43,75 @@
     <![endif]-->
 
 </head>
+
 <body class="main-demo single single-post">
     <!-- wrapper -->
     <div id="wrapper">
         <!-- side navigation -->
-        
-            <div id="sidebar-wrapper" style="background-image:url(/images/images/plain.jpg)">
-                <ul class="sidebar-nav">
-                    <li class="sidebar-brand">
-                        <a href="#"><img src="~/images/images/ccc.jpg" alt=""></a>
-                    </li>
 
-                    <li class="active">
-                        <a class="menu-item page-scroll " href="http://localhost:50969/Home/Index"><h3 style="color:dodgerblue;">Home</h3></a>
-                    </li>
-                    <li>
-                        <a class="menu-item page-scroll" href="http://localhost:50969/Home/contact"><h5>Contact-Me</h5></a>
-                        
-                    </li>
-                    <li>
-                        <a class="menu-item page-scroll" href="http://localhost:50969/Home/About"><h5>About-Me</h5></a>
-                    </li>
+        <div id="sidebar-wrapper" style="background-image:url(/images/images/plain.jpg)">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#"><img src="~/images/images/ccc.jpg" alt=""></a>
+                </li>
 
-                </ul>
-            </div>
-            <!-- / side navigation -->
-            <!-- content -->
-            <div id="page-content-wrapper" class="header">
-                <div class="container-fluid">
-                    @RenderBody()
+                <li class="active">
+                    <a class="menu-item page-scroll " href="https://localhost:44365/Home/Index"><h3 style="color:dodgerblue;">Home</h3></a>
+                </li>
+                <li>
+                    <a class="menu-item page-scroll" href="@Url.Action("Contact","Home","Contact")"><h5>Contact-Me</h5></a>
 
-                    <footer>
-                        <div class="container">
-                            <p class="footer-info">
-                                © 2016 - <strong>MyWork</strong> - Bootstrap Resume Template.
-                                <span class="social pull-right">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                                    <a href="#"><i class="fa fa-dribbble"></i></a>
-                                </span>
-                            </p>
-                        </div><!-- / container -->
-                    </footer><!-- / light-footer -->
-                    <!-- scroll to top -->
-                    <a href="#top" class="scroll-to-top page-scroll is-hidden" data-nav-status="toggle"><i class="fa fa-angle-up"></i></a>
-                    <!-- / scroll to top -->
-                </div><!-- / container-fluid -->
-            </div><!-- / page-content-wrapper -->
-        </div><!-- / wrapper -->
+                </li>
+                <li>
+                    <a class="menu-item page-scroll" href="@Url.Action("About","Home","About")"><h5>About-Me</h5></a>
+                </li>
+                @*@if ( !User.Identity.IsAuthenticated)
+        {
+             <li>
+            <a class="menu-item page-scroll" href="https://localhost:44365/Account/Login"><h5>Login</h5></a>
+        </li>
+        <li>
+            <a class="menu-item page-scroll" href="https://localhost:44365/Account/Register"><h5>New User? Please Register </h5></a>
+        </li>
+        }*@
+
+                <li>
+                    <a class="menu-item page-scroll" href="@Url.Action("Login","Account","Login")"><h5>Login</h5></a>
+                </li>
+                <li>
+                    <a class="menu-item page-scroll" href="@Url.Action("Register","Account","Register")"><h5>New User? Please Register </h5></a>
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- / side navigation -->
+     
+        <!-- content -->
+        <div id="page-content-wrapper" class="header">
+            <div class="container-fluid">
+                @RenderBody()
+
+                <footer>
+                    <div class="container">
+                        <p class="footer-info">
+                            © 2016 - <strong>MyWork</strong> - Bootstrap Resume Template.
+                            <span class="social pull-right">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-dribbble"></i></a>
+                            </span>
+                        </p>
+                    </div><!-- / container -->
+                </footer><!-- / light-footer -->
+                <!-- scroll to top -->
+                <a href="#top" class="scroll-to-top page-scroll is-hidden" data-nav-status="toggle"><i class="fa fa-angle-up"></i></a>
+                <!-- / scroll to top -->
+            </div><!-- / container-fluid -->
+        </div><!-- / page-content-wrapper -->
+    </div><!-- / wrapper -->
     <!-- javascript -->
 
     <script src="~/js/js/jquery.min.js"></script>

@@ -12,10 +12,12 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using SPblog.Helpers;
 using SPblog.Models;
 
+
 namespace SPblog.Controllers
 {
 
     [Authorize(Roles = "Admin")]
+    [RequireHttps]
     public class BlogPostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -25,7 +27,8 @@ namespace SPblog.Controllers
         public ActionResult Index()
         {
            // return View(db.Posts.Where(b =>b.Published).ToList());
-            return View(db.Posts.ToList()); //this was before above code lien was added.
+            return View(db.Posts.ToList());//this was before above code lien was added.
+            
         }
 
         // GET: BlogPosts/Details/5
@@ -42,21 +45,25 @@ namespace SPblog.Controllers
         //    }
         //    return View(blogPost);
         //}
+        [AllowAnonymous]
         public ActionResult Details(string Slug)
         {
             if (String.IsNullOrWhiteSpace(Slug))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BlogPost blogPost = db.Posts.FirstOrDefault(p => p.Slug == Slug);
+             BlogPost blogPost = db.Posts.FirstOrDefault(p => p.Slug == Slug);
+            
             if (blogPost == null)
             {
                 return HttpNotFound();
             }
+            
             return View(blogPost);
         }
 
-
+        //  var publishedposts = db.Posts.Where(b => b.Published).OrderByDescending(b => b.Created).ToList();
+           // return View(publishedposts);
 
         // GET: BlogPosts/Create
         public ActionResult Create()
@@ -70,7 +77,7 @@ namespace SPblog.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Body,MediaURL,Published")] BlogPost blogPost, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "Id,Title,Created,Body,MediaURL,Published")] BlogPost blogPost, HttpPostedFileBase image)
 
         {
             if (ModelState.IsValid)
@@ -135,7 +142,7 @@ namespace SPblog.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Slug,Body,MediaURL,Published")] BlogPost blogPost, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "Id,Title,Slug,Created,Body,MediaURL,Published")] BlogPost blogPost, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
